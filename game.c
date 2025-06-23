@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define GRID_SIZE 100
-#define GENERATION_LIMIT 100
+#define GENERATION_LIMIT 5
 
 void grid_init(bool *grid,int *alive,int size);
 void display_grid(bool *grid);
@@ -59,8 +59,8 @@ void display_grid(bool *grid)
     {
         for(int j=0;j<GRID_SIZE;j++)
         {
-            if(grid[(i*GRID_SIZE+j)])printf("\033[42m   ");
-            else printf("\033[41m   ");
+            if(grid[(i*GRID_SIZE+j)])printf("\u2B1C");
+            else printf("\u2B1B");
             printf("\033[0m");
         }
         printf(" %i\n",i);
@@ -73,6 +73,7 @@ void update(bool *grid)
     bool *temp_grid=malloc(GRID_SIZE*GRID_SIZE*sizeof(bool));
     for(int col=0;col<GRID_SIZE;col++)
     {
+
         for(int row=0;row<GRID_SIZE;row++)
         {
             int neighbours=neighbour_check(grid,col,row);
@@ -81,6 +82,7 @@ void update(bool *grid)
                 if(rule(neighbours)>0)temp_grid[(col*GRID_SIZE+row)]=true;
                 else temp_grid[col*GRID_SIZE+row]=false;
             }
+            else if (grid[col*GRID_SIZE+row])temp_grid[col*GRID_SIZE+row]=true;
         }
     }
     copy_grid(temp_grid,grid);
